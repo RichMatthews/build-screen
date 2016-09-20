@@ -1,0 +1,4 @@
+Get only 2 weeks worth of commits
+poll github for data every 10 minute
+display commits (with author.name, author.date, message, url, date)
+colour code via team
