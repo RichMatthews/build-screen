@@ -4,40 +4,46 @@ require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
 
-var UserGist = React.createClass({
+const Commit = (props) => {
+  return (
+    <a className="commit" href={props.url} target="_blank">
+      <div>
+        <div className="message">{props.message}</div>
+        <div className="author">{props.author}</div>
+        <div className="date">{props.date}</div>
+      </div>
+   </a>
+  )
+}
+
+var BuildScreen = React.createClass({
   getInitialState: function() {
     return {
-      username: '',
-      lastGistUrl: ''
+      commits: false
     };
   },
 
   componentDidMount: function() {
-      // this.setState({
-      //   username: lastGist.owner.login,
-      //   lastGistUrl: lastGist.html_url
-      // });
+    this.getCommits();
+    setInterval(()=> {
+      this.getCommits();
+    }, 300000); // 5 minutes
   },
 
-  componentWillMount: function() {
-    //since=YYYY-MM-DD
-    // for ( const key in this.state.commits ) {
-    //   console.log(this.state.commits[key]);
-    // }
+  getCommits: function() {
     let commitDate = this.getDateFromDaysAgo(14);
-    let url = 'https://api.github.com/repos/notonthehighstreet/notonthehighstreet/commits?sha=production_uk&since=' + commitDate + '&access_token=49783e8b119452a0d226ab69840221788c143c84'
+    let url = 'https://api.github.com/repos/notonthehighstreet/notonthehighstreet/commits?sha=production_uk&since=' + commitDate + '&access_token=1a2ce0d8b86cdf646c7f69266adf06182503db25'
     fetch(url)
-  .then((response) => {
-      if (response.status >= 400) {
-          throw new Error("Bad response from server");
-      }
-      return response.json();
-  })
-  .then((commits) => {
-    console.log(commits);
-    this.setState({commits: commits});
-    // set state to can render true;
-  });
+    .then((response) => {
+        if (response.status >= 400) {
+            throw new Error("Bad response from server");
+        }
+        return response.json();
+    })
+    .then((commits) => {
+      console.log(commits);
+      this.setState({commits: commits});
+    });
   },
 
   getDateFromDaysAgo: function(days) {
@@ -53,10 +59,16 @@ var UserGist = React.createClass({
   },
 
   render: function() {
-    // render only if can render true
-    let commits = this.state.commits.map((commit, i) => {
-      return <Commit key={i} author={author.name} date={author.date} />
-    })
+    let commits;
+    if(this.state.commits) {
+      commits = this.state.commits.map((commit, i) => {
+        return <Commit  key={i}
+                        author={commit.commit.author.name}
+                        date={new Date(commit.commit.author.date).toDateString()}
+                        message={commit.commit.message}
+                        url={commit.html_url} />
+      })
+    }
 
     return (
       <div>
@@ -67,6 +79,6 @@ var UserGist = React.createClass({
 });
 
 ReactDOM.render(
-  <UserGist source="https://api.github.com/users/octocat/gists" />,
+  <BuildScreen source="https://api.github.com/users/octocat/gists" />,
   document.getElementById('content')
 );
