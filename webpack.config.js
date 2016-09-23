@@ -1,13 +1,18 @@
+var path = require('path');
+
 module.exports = {
  entry: './main.js',
+
  output: {
-   path: './',
+   path: path.resolve(__dirname, 'public'),
    filename: 'index.js'
  },
+
  devServer: {
    inline: true,
    port: 3333
  },
+
  module: {
    loaders: [
      {
