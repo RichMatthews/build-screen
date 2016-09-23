@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 require('es6-promise').polyfill();
 require('isomorphic-fetch');
 
-
 const Commit = (props) => {
   return (
     <a className="commit" href={props.url} target="_blank">
