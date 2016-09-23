@@ -1,7 +1,6 @@
 var express = require('express');
 var app = express();
 var fetch = require('isomorphic-fetch');
-var config = require('./config');
 
 var getDateFromDaysAgo = function(days) {
   const dayInMillis = 8.64e7;
@@ -23,7 +22,7 @@ app.get('/', function(req, res) {
 
 app.get('/commits', function(req, res) {
   var commitDate = getDateFromDaysAgo(14);
-  var TOKEN = config.gitHubToken;
+  var TOKEN = process.env.GITHUB_TOKEN;
   var url = 'https://api.github.com/repos/notonthehighstreet/notonthehighstreet/commits?sha=production_uk&since=' + commitDate + '&access_token=' + TOKEN;
   fetch(url)
   .then((response) => {
