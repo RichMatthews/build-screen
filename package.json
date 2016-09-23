@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server",
+    "postinstall": "npm run build",
     "build": "webpack --config ./webpack.prod.config.js --progress --colors",
     "start": "node ./app.js"
   },
