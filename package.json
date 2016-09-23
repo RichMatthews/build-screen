@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "postinstall": "npm run build",
-    "build": "./node_modules/webpack/bin/webpack.js --config ./webpack.prod.config.js --progress --colors",
+    "build": "NODE_ENV=production ./node_modules/webpack/bin/webpack.js --config ./webpack.prod.config.js --progress --colors",
     "start": "node ./app.js"
   },
   "author": "",
