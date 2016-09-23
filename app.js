@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var fetch = require('isomorphic-fetch');
 
+
 var getDateFromDaysAgo = function(days) {
   const dayInMillis = 8.64e7;
   const daysAgo = dayInMillis*days;
