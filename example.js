@@ -30,35 +30,15 @@ var BuildScreen = React.createClass({
   },
 
   getCommits: function() {
-    let commitDate = this.getDateFromDaysAgo(14);
-    let TOKEN = process.env.GITHUB_TOKEN;
-    console.log(process.env);
-    console.log('******************************');
-    console.log(TOKEN);
-    let url = 'https://api.github.com/repos/notonthehighstreet/notonthehighstreet/commits?sha=production_uk&since=' + commitDate + '&access_token=' + TOKEN;
-    fetch(url)
-    .then((response) => {
+    fetch('/commits').then((response) => {
         if (response.status >= 400) {
             throw new Error("Bad response from server");
         }
         return response.json();
-    })
-    .then((commits) => {
-      console.log(commits);
-      this.setState({commits: commits});
-    });
-  },
-
-  getDateFromDaysAgo: function(days) {
-    const dayInMillis = 8.64e7;
-    const daysAgo = dayInMillis*days;
-    const commitDate = new Date(+new Date - daysAgo);
-
-    const year = commitDate.getFullYear();
-    const month = ('0' + (commitDate.getMonth() + 1)).slice(-2);
-    const day = ('0' + commitDate.getDate()).slice(-2);
-
-    return year + "-" + month + "-" + day;
+     })
+     .then((commits) => {
+       this.setState({commits: commits});
+     });
   },
 
   render: function() {
