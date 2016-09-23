@@ -32,7 +32,7 @@ var BuildScreen = React.createClass({
 
   getCommits: function() {
     let commitDate = this.getDateFromDaysAgo(14);
-    let url = 'https://api.github.com/repos/notonthehighstreet/notonthehighstreet/commits?sha=production_uk&since=' + commitDate + '&access_token=1a2ce0d8b86cdf646c7f69266adf06182503db25'
+    let url = 'https://api.github.com/repos/notonthehighstreet/notonthehighstreet/commits?sha=production_uk&since=' + commitDate + '&access_token=b28825b429698bc3617e5e790bb765e198415664'
     fetch(url)
     .then((response) => {
         if (response.status >= 400) {
